@@ -4,8 +4,6 @@ import (
 	"flag"
 	"log"
 	"os"
-	"os/signal"
-	"syscall"
 
 	"github.com/bwmarrin/snowflake"
 
@@ -138,9 +136,10 @@ func main() {
 	}
 
 	util.Log.Info("Started event loop. Stop with CTRL-C...")
-	sc := make(chan os.Signal, 1)
-	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
-	<-sc
+	err = core.NewWebServer(config)
+	if err != nil {
+		util.Log.Fatal("Failed setting up web server:", err)
+	}
 
 	util.Log.Info("Shutting down...")
 	session.Close()

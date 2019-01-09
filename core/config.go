@@ -21,10 +21,18 @@ type ConfigPermissions struct {
 	CustomCmdPermissions map[string]int
 }
 
+type ConfigWebServer struct {
+	Port         string
+	Domain       string
+	ClientID     string
+	ClientSecret string
+}
+
 type Config struct {
 	Discord        *ConfigDiscord
 	Database       *ConfigDatabase
 	Permissions    *ConfigPermissions
+	WebServer      *ConfigWebServer
 	CommandLogging bool
 }
 
@@ -41,6 +49,9 @@ func NewDefaultConfig() *Config {
 			OwnerID:       "",
 		},
 		Database: new(ConfigDatabase),
+		WebServer: &ConfigWebServer{
+			Port: "8080",
+		},
 		Permissions: &ConfigPermissions{
 			BotOwnerLevel:   1000,
 			GuildOwnerLevel: 10,
